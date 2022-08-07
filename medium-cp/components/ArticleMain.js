@@ -29,21 +29,27 @@ const styles = {
   articleText: 'font-mediumSerif text-[1.4rem] text-[#292929]',
   
 }
-
+// src={authorData ? authorData.data.imageurl : Logo}
 const ArticleMain = ({post, author}) => {
-  console.log(post, author)
+  console.log(post, author, '🔥');
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.postHeaderContainer}>
           <div className={styles.authorContainer}>
             <div className={styles.authorProfileImageContainer}>
-              <Image src={Qazi} width={100} height={100} />
+              <Image 
+                src={Qazi} 
+                width={100} height={100} />
             </div>
             <div className={styles.column}>
-              <div>{author?.data?.name} haha</div>
+              <div>{author?.data?.name}</div>
               <div className={styles.postDetails}>
-                <span>June 15 • 5 Min Read • </span><span className={styles.listenButton}><AiFillPlayCircle /> Listen </span>
+                <span>{new Date(post.data?.postedOn).toLocaleString('en-US', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            })} • {post.data?.postLength} Min Read • </span><span className={styles.listenButton}><AiFillPlayCircle /> Listen </span>
               </div>
             </div>
           </div>
@@ -61,18 +67,17 @@ const ArticleMain = ({post, author}) => {
           <div className={styles.bannerContainer}>
             <Image src={Logo} className={styles.image} width={200} height={100} />
           </div>
-          <h1 className={styles.title}>7 Free Tools that will make you more productive in 2022</h1>
+          <h1 className={styles.title}>{post?.data?.title}</h1>
           <h4 className={styles.subTitle}>
-            <div>FalseGenius, June15, 2022</div>
-            <div>Productivity is a skill that can be learned</div>
+            <div>{author?.data?.name}, {' '} {new Date(post.data?.postedOn).toLocaleString('en-US', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            })}</div>
+            <div>{post?.data?.brief}</div>
           </h4>
           <div className={styles.articleText}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-            optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-            obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-            nihil, eveniet aliquid culpa officia aut! Imped
+            {post?.data?.body}
           </div>
         </div>
       </div>

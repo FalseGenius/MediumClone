@@ -17,10 +17,10 @@ const Post = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (posts.length === 0) return;
+    if (posts.length === 0 || users.length === 0) return;
     setPost(posts.find((post) => post.id === router.query.slug));
     setAuthor(users.find((user) => user.id === post.data?.author));
-    console.log(post);
+    // console.log(users.find((user) => user.id === post.data?.author), '⭐');
   }, [post])
   
   return (

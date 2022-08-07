@@ -3,7 +3,10 @@ import Image from 'next/image';
 import { BsBookmark } from 'react-icons/bs';
 import Link from 'next/link';
 import {useState, useEffect} from 'react';
-import {collection, getDocs, setDoc, doc} from 'firebase/firestore';
+import {db} from '../firebase';
+import {getDoc, doc} from 'firebase/firestore';
+import {useContext} from 'react';
+import {MediumContext} from '../context/MediumContext';
 
 
 const styles = {
@@ -24,13 +27,16 @@ const styles = {
 
 const Postcard = ({post}) => {
   const [authorData, setAuthorData] = useState(null);
+  const {users} = useContext(MediumContext);
 
   useEffect(() => {
+    // console.log(users.find((user) => user.id === post.data.author))
     const getAuthorData = async () => {
-      
+      setAuthorData(await users.find((user) => user.id === post.data.author))
     }
+
+    getAuthorData();
   }, [])
-  
   
   return (
     <Link href={`/post/${post.id}`}>
@@ -39,13 +45,13 @@ const Postcard = ({post}) => {
           <div className={styles.authorContainer}>
             <div className={styles.authorImageContainer}>
               <Image
-                src={Logo}
+                src={authorData ? authorData.data.imageurl : Logo}
                 className={styles.authorImage}
                 height={40}
                 width={40}
               />
             </div>
-            <div className={styles.authorName}>{post.data.author}</div>
+            <div className={styles.authorName}>{authorData?.data.name}</div>
           </div>
   
           <div>
